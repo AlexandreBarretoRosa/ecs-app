@@ -29,7 +29,7 @@ jobs:
 
     - name: Lint App
       run: golangci-lint run ./... -E errcheck
-      working-diectory: ./app
+      working-directory: ./app
 
     - name: Test App
       run: go test -v ./...
