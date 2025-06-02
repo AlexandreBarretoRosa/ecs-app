@@ -12,7 +12,7 @@ env:
   CLUSTER_NAME: "linuxtips-ecs-cluster"
   REPOSITORY_NAME: "linuxtips/$APP_NAME"
 
-job:
+jobs:
   ci-app:
     runs-on: ubuntu-latest
     steps:
