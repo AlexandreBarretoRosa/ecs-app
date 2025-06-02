@@ -1,27 +1,22 @@
 variable "region" {
-  default = "us-east-1"
-  type    = string
+  default     = "us-east-1"
+  type        = string
   description = "AWS Region"
 }
 
 variable "service_name" {
-  type    = string
+  type        = string
   description = "Service Name"
 }
 
+variable "container_image" {
+  type        = string
+  description = "imagem com tag para deployment da aplicação do ecs"
+}
+
 variable "cluster_name" {
-  type    = string
+  type        = string
   description = "Cluster Name"
-}
-
-variable "vpc_id" {
-  type    = string
-  description = "VPC ID"
-}
-
-variable "private_subnets" {
-  type    = list
-  description = "Private Subnets"
 }
 
 variable "service_port" {
@@ -29,7 +24,7 @@ variable "service_port" {
 }
 
 variable "service_cpu" {
-  type = number
+  type    = number
   default = 1024
 }
 
@@ -46,43 +41,43 @@ variable "ssm_private_subnet_2" {}
 variable "ssm_private_subnet_3" {}
 
 variable "ssm_alb" {
-  type = string
-  default = "alb"
-  
+  type        = string
+  description = "ALB Name"
+
 }
 
 variable "environment_variables" {
-  type = list
+  type = list(any)
 }
 
 variable "capabilities" {
-  type = list
+  type = list(any)
 }
 
 variable "service_healthcheck" {}
 
 variable "service_launch_type" {
-  
+
 }
 
 variable "service_task_count" {
-  
+
 }
 
 variable "service_hosts" {
-  
+
 }
 
 variable "scale_type" {
-  
+
 }
 
 variable "task_minimum" {
-  
+
 }
 
 variable "task_maximum" {
-  
+
 }
 
 ### Auto scaling de CPU out
@@ -122,8 +117,8 @@ variable "scalin_out_evaluation_periods" {
   description = "Number of periods to evaluate the alarm"
   default     = 3
 }
- 
- variable "scalin_out_cooldown" {
+
+variable "scalin_out_cooldown" {
   type        = number
   description = "Cooldown period in seconds"
   default     = 60
@@ -166,8 +161,8 @@ variable "scalin_in_evaluation_periods" {
   description = "Number of periods to evaluate the alarm"
   default     = 3
 }
- 
- variable "scalin_in_cooldown" {
+
+variable "scalin_in_cooldown" {
   type        = number
   description = "Cooldown period in seconds"
   default     = 60
@@ -176,11 +171,11 @@ variable "scalin_in_evaluation_periods" {
 ### Tracking CPU
 
 variable "scaling_tracking_cpu" {
-  
+
 }
 
 ### Tracking requests
 
 variable "scalin_tracking_requests" {
-  
+
 }
