@@ -7,7 +7,7 @@ on:
 
 env:
   AWS_ACCOUNT: "905418103129"
-  AWS_REGION: us-east-1
+  AWS_REGION: "us-east-1"
   APP_NAME: "linuxtips-app"
   CLUSTER_NAME: "linuxtips-ecs-cluster"
   REPOSITORY_NAME: "linuxtips/$APP_NAME"
@@ -16,7 +16,7 @@ jobs:
   ci-app:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
+    - name: checkout repository
       uses: actions/checkout@v4
 
     - name: Setup Golang
@@ -33,4 +33,4 @@ jobs:
 
     - name: Test App
       run: go test -v ./...
-      working-diretory: ./app
+      working-directory: ./app
