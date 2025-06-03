@@ -49,6 +49,10 @@ jobs:
       run: terraform fmt --recursive --check
       working-directory: ./terraform
 
+    - name: Debug - List environment files
+      run: ls -R environment/
+      working-directory: ./terraform
+
     - name: Terraform init
       run: terraform init -backend-config=environment/${GITHUB_REF_NAME}/backend.tfvars
       working-directory: ./terraform
@@ -56,10 +60,6 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: ${{ env.AWS_REGION }}
-
-    - name: Debug - List environment files
-      run: ls -R environment/
-      working-directory: ./terraform
 
     - name: Terraform validate
       run: terraform validate
