@@ -50,7 +50,7 @@ jobs:
       working-directory: ./terraform
 
     - name: Debug - List environment files
-      run: ls -R environment/
+      run: pwd
       working-directory: ./terraform
 
     - name: Terraform init
