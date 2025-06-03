@@ -51,7 +51,7 @@ jobs:
 
     - name: Debug - List environment files
       run: pwd
-      working-directory: ./terraform
+      working-directory: ./terraform/environment/dev
 
     - name: Terraform init
       run: terraform init -backend-config=environment/${GITHUB_REF_NAME}/backend.tfvars
