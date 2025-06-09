@@ -1,0 +1,70 @@
+name: CI/CD Pipeline - Dev
+
+on:
+  push:
+    branches:
+    - dev
+
+env:
+  AWS_ACCOUNT: "905418103129"
+  AWS_REGION: "us-east-1"
+  APP_NAME: "linuxtips-app"
+  CLUSTER_NAME: "linuxtips-ecs-cluster"
+  REPOSITORY_NAME: "linuxtips/$APP_NAME"
+
+jobs:
+  ci-app:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Golang
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.22'
+
+    - name: Install GoLint
+      run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.59.1
+
+    - name: Lint App
+      run: golangci-lint run ./... -E errcheck
+      working-directory: ./app
+
+    - name: Test App
+      run: go test -v ./...
+      working-directory: ./app
+  ci-terraform:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: "1.5.7"
+
+    - name: Terraform fmt check
+      run: terraform fmt --recursive --check
+      working-directory: ./terraform
+
+    - name: Debug - List environment files
+      run: pwd
+      working-directory: ./terraform/environment/dev
+
+    - name: Terraform init
+      run: terraform init -backend-config=environment/${GITHUB_REF_NAME}/backend.tfvars
+      working-directory: ./terraform
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: ${{ env.AWS_REGION }}
+
+    - name: Terraform validate
+      run: terraform validate
+      working-directory: ./terraform
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: ${{ env.AWS_REGION }}
