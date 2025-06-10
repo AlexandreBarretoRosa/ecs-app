@@ -109,9 +109,9 @@ jobs:
         AWS_REGION: ${{ env.AWS_REGION }}
 
     - name: Tag image
-      run: docker tag app:latest ${{ env.AWS_ACCOUNT }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.REPOSITORY_NAME }}:${{GITHUB_SHA::8}}
+      run: docker tag app:latest ${{ env.AWS_ACCOUNT }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.REPOSITORY_NAME }}:${GITHUB_SHA}
       working-directory: ./app
 
     - name: Publish Image
-      run: docker push ${{ env.AWS_ACCOUNT }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.REPOSITORY_NAME }}:${{GITHUB_SHA::8}}
+      run: docker push ${{ env.AWS_ACCOUNT }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.REPOSITORY_NAME }}:${GITHUB_SHA::8}
       working-directory: ./app
