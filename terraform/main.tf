@@ -51,7 +51,7 @@ resource "aws_lb_listener" "main" {
 
 module "service" {
 
-  source = "github.com/AlexandreBarretoRosa/ecs-service-module?ref=v1"
+  source = "github.com/AlexandreBarretoRosa/ecs-service-module?ref=v1.1.0"
 
   region                      = var.region
   cluster_name                = var.cluster_name
@@ -76,6 +76,18 @@ module "service" {
     data.aws_ssm_parameter.private_subnet_1.value,
     data.aws_ssm_parameter.private_subnet_2.value,
     data.aws_ssm_parameter.private_subnet_3.value,
+  ]
+
+  efs_volumes = [
+    {
+      name = "efs_volume"
+      efs_volume_configuration = {
+        file_system_id  = aws_efs_file_system.main.id
+        file_sutem_root = "/"
+        mount_point     = "/mnt/efs"
+        read_only       = false
+      }
+    }
   ]
 
   ##Autoscaling##
